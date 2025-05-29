@@ -26,11 +26,10 @@ pub struct Simulation {
 }
 
 impl Simulation {
-    pub fn new(seed: u64) -> Self {
+    pub fn new(seed: u64, n: usize) -> Self {
         fastrand::seed(seed);
         let mut bodies = Vec::new();
 
-        let n = 3;
         for _ in 0..n {
             bodies.push(rand_body());
         }
