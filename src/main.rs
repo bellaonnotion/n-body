@@ -17,6 +17,7 @@ mod renderer;
 use renderer::{Renderer, BODIES, TICK, PAUSED, SEED};
 
 pub const START_SEED: u64 = 3; 
+const NB_BODIES: usize = 3;
 
 fn main() {
     let config = quarkstrom::Config {
@@ -24,7 +25,7 @@ fn main() {
     };
     quarkstrom::run::<Renderer>(config);
 
-    let mut simulation = Simulation::new(START_SEED);
+    let mut simulation = Simulation::new(START_SEED, NB_BODIES);
 
     let mut loop_limiter: Option<LoopLimiter> = Some(LoopLimiter::new(1000000.0));
     loop {
@@ -33,7 +34,7 @@ fn main() {
         TICK.fetch_add(1, Ordering::Relaxed);
 
         if let Some(seed) = SEED.lock().take() {
-            simulation = Simulation::new(seed);
+           simulation = Simulation::new(seed, NB_BODIES);
         }
 
         // Cap tps
